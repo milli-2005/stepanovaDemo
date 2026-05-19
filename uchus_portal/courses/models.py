@@ -18,8 +18,9 @@ class CourseApplication(models.Model):
         ('safety', 'Курс по охране труда'),
     ]
     PAYMENT_CHOICES = [
-        ('cash', 'Наличными'),
-        ('phone', 'Переводом по номеру телефона'),
+        ('qr', 'предоплата по qr-коду'),
+        ('mir', 'оплата картой МИР'),
+        ('cash', 'постоплата в офисе организации'),
     ]
     STATUS_NEW = 'new'
     STATUS_STUDYING = 'studying'

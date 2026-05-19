@@ -1,48 +1,53 @@
 {% extends 'courses/base.html' %}
 {% block title %}Учусь РФ — запись на курсы{% endblock %}
 {% block content %}
-<section class="hero">
-    <div class="hero-copy">
-        <span class="eyebrow">Онлайн-обучение</span>
-        <h1>Учусь РФ</h1>
-        <p>Портал для записи на повышение квалификации, переподготовку и обучение по охране труда.</p>
-        <div class="hero-buttons">
-            <a class="btn btn-dark btn-lg" href="{% url 'register' %}"><i class="bi bi-mortarboard"></i> Начать обучение</a>
-            <a class="btn btn-outline-dark btn-lg" href="{% url 'login' %}"><i class="bi bi-arrow-right-circle"></i> Войти</a>
-        </div>
-    </div>
-    <div class="hero-panel hero-slider" data-slider>
-        <button class="slider-btn prev" type="button" data-prev aria-label="Назад">‹</button>
-        <div class="slides">
-            <img src="/media/home-slider/home-1.avif" alt="Цифровая аудитория">
-            <img src="/media/home-slider/home-2.svg" alt="Профессиональный рост">
-            <img src="/media/home-slider/home-3.svg" alt="Практические материалы">
-            <img src="/media/home-slider/home-4.svg" alt="Сертификат об обучении">
-        </div>
-        <button class="slider-btn next" type="button" data-next aria-label="Вперед">›</button>
-        <div class="hero-slider-caption">
-            <div class="icon-bubble"><i class="bi bi-mortarboard-fill"></i></div>
-            <h2>Быстрая заявка</h2>
-            <p>Выберите курс, дату старта и способ оплаты. Администратор проверит заявку и обновит статус.</p>
+
+<!-- Hero секция с картинкой и кнопками внизу -->
+<section class="py-4">
+    <div class="container">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <img src="/media/HERO.png" alt="Дистанционное обучение" class="img-fluid w-100" style="height: 450px; object-fit: cover;">
+            <div class="text-center py-4 bg-white">
+                <div class="d-flex gap-3 justify-content-center">
+                    <a class="btn btn-primary btn-lg px-5" href="{% url 'register' %}">
+                        <i class="bi bi-mortarboard"></i> Начать обучение
+                    </a>
+                    <a class="btn btn-outline-secondary btn-lg px-5" href="{% url 'login' %}">
+                        <i class="bi bi-box-arrow-in-right"></i> Войти
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="features">
-    <article>
-        <span><i class="bi bi-person-check"></i> 01</span>
-        <h3>Регистрация</h3>
-        <p>Логин, пароль, ФИО, телефон и почта проверяются до сохранения.</p>
-    </article>
-    <article>
-        <span><i class="bi bi-journal-text"></i> 02</span>
-        <h3>Личный кабинет</h3>
-        <p>История заявок, статусы и отзывы после завершения обучения.</p>
-    </article>
-    <article>
-        <span><i class="bi bi-sliders"></i> 03</span>
-        <h3>Админ-панель</h3>
-        <p>Фильтры, поиск, сортировка, пагинация и смена статусов.</p>
-    </article>
+<!-- Карточки курсов -->
+<section class="py-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 shadow-sm">
+                    <h4 class="mt-2">Повышение квалификации</h4>
+                    <p class="text-secondary small">Современные программы для специалистов</p>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm">Записаться →</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 shadow-sm">
+                    <h4 class="mt-2">Профпереподготовка</h4>
+                    <p class="text-secondary small">Новая профессия дистанционно</p>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm">Записаться →</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 shadow-sm">
+                    <h4 class="mt-2">Охрана труда</h4>
+                    <p class="text-secondary small">Безопасность и соответствие нормам</p>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm">Записаться →</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 {% endblock %}

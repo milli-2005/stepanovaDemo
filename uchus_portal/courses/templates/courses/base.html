@@ -42,23 +42,54 @@
     </div>
 </main>
 
-<footer class="site-footer">
-    <div class="container footer-inner">
-        <div>
-            <a class="footer-brand" href="{% url 'index' %}">Учусь.РФ</a>
-            <p>Запись на онлайн-курсы повышения квалификации, переподготовки и охраны труда.</p>
+<footer class="bg-light border-top mt-auto py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Колонка с описанием -->
+            <div class="col-md-4 mb-4 mb-md-0">
+                <a class="navbar-brand fw-bold fs-4" href="{% url 'index' %}">Учусь.РФ</a>
+                <p class="text-secondary mt-2 small">Запись на онлайн-курсы повышения квалификации, переподготовки и охраны труда.</p>
+            </div>
+
+            <!-- Колонка с контактами -->
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="fw-bold mb-3">Контакты</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2 d-flex align-items-start">
+                        <i class="bi bi-geo-alt text-primary me-2 mt-1"></i>
+                        <span class="small">г. Москва, ул. Большая Ордынка, д. 15</span>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="bi bi-telephone text-primary me-2"></i>
+                        <a href="tel:+74951234567" class="text-decoration-none text-secondary small">+7 (495) 123-45-67</a>
+                        <span class="text-secondary small ms-1">— горячая линия</span>
+                    </li>
+                    <li class="mt-3">
+                        <span class="small fst-italic text-secondary">Возникли вопросы? Позвоните нам — ответим оперативно и подробно.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Колонка с соцсетями и навигацией -->
+            <div class="col-md-4">
+                <div class="mb-4">
+                    <h5 class="fw-bold mb-3">Мы в соцсетях</h5>
+                    <div class="d-flex gap-2">
+
+                        <a href="#" ><img src="/media/social 2.png" alt="Дистанционное обучение"  style="height: 30px; width: 30px;">
+                        </a>
+                        <a href="#" ><img src="/media/social 3.png" alt="Дистанционное обучение"  style="height: 30px; width: 30px;">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="footer-links">
-            <a href="{% url 'index' %}">Главная</a>
-            {% if request.session.portal_admin %}
-                <a href="{% url 'admin_panel' %}">Панель</a>
-            {% elif user.is_authenticated %}
-                <a href="{% url 'dashboard' %}">Кабинет</a>
-                <a href="{% url 'apply' %}">Заявка</a>
-            {% else %}
-                <a href="{% url 'login' %}">Вход</a>
-                <a href="{% url 'register' %}">Регистрация</a>
-            {% endif %}
+
+        <!-- Нижняя линия с копирайтом -->
+        <hr class="my-4">
+        <div class="text-center">
+            <span class="text-secondary small">&copy; {% now "Y" %} Учусь.РФ. Степанова Милена.</span>
         </div>
     </div>
 </footer>
@@ -67,3 +98,5 @@
 <script src="{% static 'courses/app.js' %}"></script>
 </body>
 </html>
+
+

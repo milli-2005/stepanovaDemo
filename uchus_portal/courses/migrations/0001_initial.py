@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('course', models.CharField(choices=[('qualification', 'Курс повышения квалификации'), ('retraining', 'Курс переподготовки'), ('safety', 'Курс по охране труда')], max_length=32, verbose_name='Курс')),
                 ('start_date', models.DateField(verbose_name='Дата начала')),
-                ('payment_method', models.CharField(choices=[('cash', 'Наличными'), ('phone', 'Переводом по номеру телефона')], max_length=16, verbose_name='Способ оплаты')),
+                ('payment_method', models.CharField(choices=[('qr', 'предоплата по qr-коду'), ('mir', 'оплата картой МИР'), ('cash', 'постоплата в офисе организации'),], max_length=16, verbose_name='Способ оплаты')),
                 ('status', models.CharField(choices=[('new', 'Новая'), ('studying', 'Идет обучение'), ('finished', 'Обучение завершено')], default='new', max_length=16, verbose_name='Статус')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Создана')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='applications', to=settings.AUTH_USER_MODEL)),
