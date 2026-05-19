@@ -29,17 +29,29 @@ def register_view(request):
 
 def login_view(request):
     form = LoginForm(request.POST or None)
+
     if request.method == 'POST':
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
+
+
         if username == 'Admin26' and password == 'demo20':
             request.session['portal_admin'] = True
             messages.success(request, 'Панель администратора открыта.')
             return redirect('admin_panel')
-    if request.method == 'POST' and form.is_valid():
-        login(request, form.user)
-        messages.success(request, 'Вы вошли в систему.')
-        return redirect('dashboard')
+
+
+        if form.is_valid():
+            login(request, form.user)
+            messages.success(request, 'Вы вошли в систему.')
+
+            # Проверка, является ли пользователь суперпользователем Django
+            if form.user.is_superuser:
+                request.session['portal_admin'] = True
+                return redirect('admin_panel')
+
+            return redirect('dashboard')
+
     return render(request, 'courses/login.html', {'form': form})
 
 
@@ -94,6 +106,7 @@ def admin_login(request):
 
 def admin_logout(request):
     request.session.pop('portal_admin', None)
+
     return redirect('login')
 
 

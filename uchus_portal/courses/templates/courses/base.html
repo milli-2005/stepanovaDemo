@@ -12,9 +12,11 @@
 <body>
 <nav class="navbar navbar-expand-lg glass-nav">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{% url 'index' %}">Учусь РФ</a>
+        <a class="navbar-brand fw-bold" href="{% url 'index' %}">
+            <img src="/media/лого.png" style="height: 30px; width: 30px;"> Учусь РФ
+        </a>
         <div class="nav-actions">
-            {% if request.session.portal_admin %}
+            {% if user.is_authenticated and user.is_superuser %}
                 <a class="nav-link" href="{% url 'admin_panel' %}"><i class="bi bi-sliders"></i> Панель</a>
                 <a class="btn btn-sm btn-outline-dark" href="{% url 'admin_logout' %}"><i class="bi bi-box-arrow-right"></i> Выйти</a>
             {% elif user.is_authenticated %}
@@ -45,13 +47,11 @@
 <footer class="bg-light border-top mt-auto py-5">
     <div class="container">
         <div class="row">
-            <!-- Колонка с описанием -->
             <div class="col-md-4 mb-4 mb-md-0">
                 <a class="navbar-brand fw-bold fs-4" href="{% url 'index' %}">Учусь.РФ</a>
                 <p class="text-secondary mt-2 small">Запись на онлайн-курсы повышения квалификации, переподготовки и охраны труда.</p>
             </div>
 
-            <!-- Колонка с контактами -->
             <div class="col-md-4 mb-4 mb-md-0">
                 <h5 class="fw-bold mb-3">Контакты</h5>
                 <ul class="list-unstyled">
@@ -70,23 +70,17 @@
                 </ul>
             </div>
 
-            <!-- Колонка с соцсетями и навигацией -->
             <div class="col-md-4">
                 <div class="mb-4">
                     <h5 class="fw-bold mb-3">Мы в соцсетях</h5>
                     <div class="d-flex gap-2">
-
-                        <a href="#" ><img src="/media/social 2.png" alt="Дистанционное обучение"  style="height: 30px; width: 30px;">
-                        </a>
-                        <a href="#" ><img src="/media/social 3.png" alt="Дистанционное обучение"  style="height: 30px; width: 30px;">
-                        </a>
+                        <a href="#"><img src="/media/social 2.png" alt="Соцсеть" style="height: 30px; width: 30px;"></a>
+                        <a href="#"><img src="/media/social 3.png" alt="Соцсеть" style="height: 30px; width: 30px;"></a>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <!-- Нижняя линия с копирайтом -->
         <hr class="my-4">
         <div class="text-center">
             <span class="text-secondary small">&copy; {% now "Y" %} Учусь.РФ. Степанова Милена.</span>
@@ -98,5 +92,3 @@
 <script src="{% static 'courses/app.js' %}"></script>
 </body>
 </html>
-
-
