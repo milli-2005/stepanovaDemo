@@ -1,0 +1,9 @@
+uchus_portal/venv/
+uchus_portal/db.sqlite3
+**/__pycache__/
+*.pyc
+*.docx
+~$*
+~WRL*.tmp
+*.tmp
+при попытке удалить репозиторий на гитхаб вышло такое сообщение, что ужно вписать я не понимаю
