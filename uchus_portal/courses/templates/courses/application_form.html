@@ -1,16 +1,34 @@
 {% extends 'courses/base.html' %}
-{% block title %}Оформление заявки{% endblock %}
+{% block title %}Новая заявка{% endblock %}
 {% block content %}
-<section class="auth-layout compact">
-    <div class="auth-aside">
-        <span class="eyebrow">Запись на курс</span>
-        <h1>Оформление заявки</h1>
-        <p>Выберите направление, укажите дату в формате ДД.ММ.ГГГГ и удобный способ оплаты.</p>
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card p-4">
+            <div class="text-center mb-4">
+                <i class="bi bi-journal-bookmark-fill fs-1 text-primary"></i>
+                <h1 class="mt-2">Оформление заявки</h1>
+                <p class="text-secondary">Выберите курс и дату начала</p>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div class="form-text small">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|join:", " }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-100 py-2">Отправить заявку</button>
+                <div class="text-center mt-3">
+                    <a href="{% url 'dashboard' %}" class="text-decoration-none">← Вернуться в кабинет</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <form class="form-card" method="post" novalidate>
-        {% csrf_token %}
-        {% include 'courses/_form.html' %}
-        <button class="btn btn-dark w-100" type="submit">Отправить</button>
-    </form>
-</section>
+</div>
 {% endblock %}

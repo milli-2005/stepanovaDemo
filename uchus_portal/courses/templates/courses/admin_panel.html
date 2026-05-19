@@ -1,73 +1,102 @@
 {% extends 'courses/base.html' %}
 {% block title %}Панель администратора{% endblock %}
 {% block content %}
-<section class="cabinet-head">
-    <div>
-        <span class="eyebrow">Администрирование</span>
-        <h1>Заявки пользователей</h1>
-    </div>
-    <div class="head-actions">
-        <a class="btn btn-dark" href="{% url 'admin_application_create' %}"><i class="bi bi-plus-circle"></i> Создать заявку</a>
-    </div>
-</section>
 
-<form class="admin-filters" method="get">
-    <input name="q" value="{{ request.GET.q }}" placeholder="Поиск по логину, ФИО или курсу">
-    <select name="status">
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h1 class="mb-0">Управление заявками</h1>
+        <p class="text-secondary">Всего заявок: {{ page.paginator.count }}</p>
+    </div>
+    <a href="{% url 'admin_application_create' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Создать заявку
+    </a>
+</div>
+
+<!-- Фильтры -->
+<form class="admin-filters bg-white p-3 rounded-4 mb-4" method="get">
+    <input type="text" name="q" class="form-control" placeholder="Поиск..." value="{{ request.GET.q }}">
+    <select name="status" class="form-select">
         <option value="">Все статусы</option>
         {% for value, label in status_choices %}
             <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
     </select>
-    <select name="sort">
-        <option value="-created_at">Сначала новые</option>
+    <select name="sort" class="form-select">
+        <option value="-created_at" {% if request.GET.sort == '-created_at' %}selected{% endif %}>Сначала новые</option>
         <option value="created_at" {% if request.GET.sort == 'created_at' %}selected{% endif %}>Сначала старые</option>
         <option value="status" {% if request.GET.sort == 'status' %}selected{% endif %}>По статусу</option>
-        <option value="course" {% if request.GET.sort == 'course' %}selected{% endif %}>По курсу</option>
     </select>
-    <button class="btn btn-dark" type="submit">Применить</button>
-    <a class="btn btn-outline-dark reset-filter" href="{% url 'admin_panel' %}">Сбросить</a>
+    <button type="submit" class="btn btn-primary">Применить</button>
+    <a href="{% url 'admin_panel' %}" class="btn btn-outline-secondary">Сбросить</a>
 </form>
 
-<section class="admin-list">
+<!-- Список заявок -->
+<div class="row g-3">
     {% for app in page %}
-        <article class="application-card admin-card">
-            <div>
-                <span class="status {{ app.status }}">{{ app.get_status_display }}</span>
-                <h3>#{{ app.id }} · {{ app.get_course_display }}</h3>
-                <p>{{ app.user.profile.full_name }} · {{ app.user.username }} · {{ app.user.email }}</p>
-                <p>Телефон: {{ app.user.profile.phone }} · Старт: {{ app.start_date|date:'d.m.Y' }} · {{ app.get_payment_method_display }}</p>
-                {% if app.review %}
-                    <div class="admin-review">
-                        <strong><i class="bi bi-chat-heart"></i> Отзыв пользователя</strong>
-                        <p>{{ app.review.text }}</p>
+        <div class="col-12">
+            <div class="application-card p-3">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                    <div class="flex-grow-1">
+                        <span class="status {{ app.status }}">{{ app.get_status_display }}</span>
+                        <h3 class="mt-2 mb-1">#{{ app.id }} · {{ app.get_course_display }}</h3>
+                        <p class="mb-1"><strong>{{ app.user.profile.full_name|default:app.user.username }}</strong> · {{ app.user.email }}</p>
+                        <p class="text-secondary small mb-0">
+                            Телефон: {{ app.user.profile.phone|default:"—" }} ·
+                            Старт: {{ app.start_date|date:'d.m.Y' }} ·
+                            Оплата: {{ app.get_payment_method_display }}
+                        </p>
+                        {% if app.review %}
+                            <div class="bg-light p-2 rounded mt-2">
+                                <i class="bi bi-chat-quote text-primary"></i>
+                                <span class="small">“{{ app.review.text }}”</span>
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
-            </div>
-            <form method="post" class="status-form">
-                {% csrf_token %}
-                <input type="hidden" name="application_id" value="{{ app.id }}">
-                <select name="status" data-autosubmit>
-                    {% for value, label in status_choices %}
-                        <option value="{{ value }}" {% if app.status == value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-                <div class="crud-actions">
-                    <a href="{% url 'admin_application_edit' app.id %}"><i class="bi bi-pencil-square"></i> Изменить</a>
-                    <a class="danger-link" href="{% url 'admin_application_delete' app.id %}"><i class="bi bi-trash3"></i> Удалить</a>
+                    <div class="text-end">
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="application_id" value="{{ app.id }}">
+                            <select name="status" class="form-select form-select-sm mb-2" style="width: 150px;" onchange="this.form.submit()">
+                                {% for value, label in status_choices %}
+                                    <option value="{{ value }}" {% if app.status == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'admin_application_edit' app.id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i> Изменить
+                            </a>
+                            <a href="{% url 'admin_application_delete' app.id %}" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Удалить
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </article>
+            </div>
+        </div>
     {% empty %}
-        <div class="empty-state"><h3>Заявок не найдено</h3></div>
+        <div class="col-12">
+            <div class="text-center py-5 bg-white rounded-4">
+                <i class="bi bi-inbox fs-1 text-secondary"></i>
+                <h3 class="mt-2">Заявок не найдено</h3>
+            </div>
+        </div>
     {% endfor %}
-</section>
+</div>
 
+<!-- Пагинация -->
 {% if page.paginator.num_pages > 1 %}
-    <div class="pagination-line">
-        {% if page.has_previous %}<a href="{{ page_prefix }}page={{ page.previous_page_number }}">Назад</a>{% endif %}
-        <span>{{ page.number }} / {{ page.paginator.num_pages }}</span>
-        {% if page.has_next %}<a href="{{ page_prefix }}page={{ page.next_page_number }}">Вперед</a>{% endif %}
-    </div>
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page.has_previous %}
+                <li class="page-item"><a class="page-link" href="{{ page_prefix }}page={{ page.previous_page_number }}">← Назад</a></li>
+            {% endif %}
+            <li class="page-item active"><span class="page-link">{{ page.number }} / {{ page.paginator.num_pages }}</span></li>
+            {% if page.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ page_prefix }}page={{ page.next_page_number }}">Вперед →</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endif %}
+
 {% endblock %}

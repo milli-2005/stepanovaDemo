@@ -2,49 +2,55 @@
 {% block title %}Учусь РФ — запись на курсы{% endblock %}
 {% block content %}
 
-<!-- Hero секция с картинкой и кнопками внизу -->
-<section class="py-4">
-    <div class="container">
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-            <img src="/media/HERO.png" alt="Дистанционное обучение" class="img-fluid w-100" style="height: 450px; object-fit: cover;">
-            <div class="text-center py-4 bg-white">
-                <div class="d-flex gap-3 justify-content-center">
-                    <a class="btn btn-primary btn-lg px-5" href="{% url 'register' %}">
-                        <i class="bi bi-mortarboard"></i> Начать обучение
-                    </a>
-                    <a class="btn btn-outline-secondary btn-lg px-5" href="{% url 'login' %}">
-                        <i class="bi bi-box-arrow-in-right"></i> Войти
-                    </a>
-                </div>
+<!-- Hero секция -->
+<section class="mb-5">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <img src="/media/HERO.png" alt="Дистанционное обучение" class="img-fluid w-100" style="height: 450px; object-fit: cover;">
+        <div class="text-center py-4 bg-white">
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a class="btn btn-primary btn-lg px-5" href="{% url 'register' %}">
+                    <i class="bi bi-mortarboard"></i> Начать обучение
+                </a>
+                <a class="btn btn-outline-secondary btn-lg px-5" href="{% url 'login' %}">
+                    <i class="bi bi-box-arrow-in-right"></i> Войти
+                </a>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Карточки курсов -->
-<section class="py-4">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-3 shadow-sm">
-                    <h4 class="mt-2">Повышение квалификации</h4>
-                    <p class="text-secondary small">Современные программы для специалистов</p>
-                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm">Записаться →</a>
+<section>
+    <h2 class="text-center mb-4">Направления обучения</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4">
+                <div class="mb-3">
+                    <i class="bi bi-graph-up fs-1 text-primary"></i>
                 </div>
+                <h3>Повышение квалификации</h3>
+                <p class="text-secondary">Современные программы для специалистов</p>
+                <a href="{% url 'register' %}" class="btn btn-outline-primary mt-auto">Записаться →</a>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-3 shadow-sm">
-                    <h4 class="mt-2">Профпереподготовка</h4>
-                    <p class="text-secondary small">Новая профессия дистанционно</p>
-                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm">Записаться →</a>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4">
+                <div class="mb-3">
+                    <i class="bi bi-award fs-1 text-primary"></i>
                 </div>
+                <h3>Профпереподготовка</h3>
+                <p class="text-secondary">Новая профессия дистанционно</p>
+                <a href="{% url 'register' %}" class="btn btn-outline-primary mt-auto">Записаться →</a>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-3 shadow-sm">
-                    <h4 class="mt-2">Охрана труда</h4>
-                    <p class="text-secondary small">Безопасность и соответствие нормам</p>
-                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm">Записаться →</a>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4">
+                <div class="mb-3">
+                    <i class="bi bi-shield-check fs-1 text-primary"></i>
                 </div>
+                <h3>Охрана труда</h3>
+                <p class="text-secondary">Безопасность и соответствие нормам</p>
+                <a href="{% url 'register' %}" class="btn btn-outline-primary mt-auto">Записаться →</a>
             </div>
         </div>
     </div>

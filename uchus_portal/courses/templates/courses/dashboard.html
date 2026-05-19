@@ -1,14 +1,17 @@
 {% extends 'courses/base.html' %}
 {% block title %}Личный кабинет{% endblock %}
 {% block content %}
-<section class="cabinet-head">
-    <div>
-        <span class="eyebrow">Личный кабинет</span>
-        <h1>Здравствуйте, {{ user.profile.full_name|default:user.username }}</h1>
-    </div>
-</section>
 
-<section class="slider" data-slider>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h1 class="mb-0">Здравствуйте, {{ user.profile.full_name|default:user.username }}</h1>
+        <p class="text-secondary">Ваши заявки на обучение</p>
+    </div>
+    <a href="{% url 'apply' %}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Новая заявка</a>
+</div>
+
+<!-- Слайдер -->
+<div class="slider" data-slider>
     <button class="slider-btn prev" type="button" data-prev aria-label="Назад">‹</button>
     <div class="slides">
         <img src="/media/slider/онлайн.png" alt="Онлайн обучение">
@@ -17,28 +20,43 @@
         <img src="/media/slider/охрана.png" alt="Охрана труда">
     </div>
     <button class="slider-btn next" type="button" data-next aria-label="Вперед">›</button>
-</section>
+</div>
 
-<section class="applications">
-    <h2>История заявок</h2>
+<!-- Список заявок -->
+<h2 class="mb-3">История заявок</h2>
+<div class="row g-3">
     {% for app in applications %}
-        <article class="application-card">
-            <div>
-                <span class="status {{ app.status }}">{{ app.get_status_display }}</span>
-                <h3>{{ app.get_course_display }}</h3>
-                <p>Дата начала: {{ app.start_date|date:'d.m.Y' }} · Оплата: {{ app.get_payment_method_display }}</p>
+        <div class="col-12">
+            <div class="application-card p-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <span class="status {{ app.status }}">{{ app.get_status_display }}</span>
+                    <h3 class="mt-2 mb-1">{{ app.get_course_display }}</h3>
+                    <p class="text-secondary mb-0 small">
+                        Старт: {{ app.start_date|date:'d.m.Y' }} · Оплата: {{ app.get_payment_method_display }}
+                    </p>
+                </div>
+                <div>
+                    {% if app.status == 'finished' and not app.review %}
+                        <a href="{% url 'add_review' app.id %}" class="btn btn-outline-primary">Оставить отзыв</a>
+                    {% elif app.review %}
+                        <div class="bg-light p-2 rounded">
+                            <i class="bi bi-chat-quote text-primary"></i>
+                            <span class="small">“{{ app.review.text }}”</span>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-            {% if app.status == 'finished' and not app.review %}
-                <a class="btn btn-outline-dark" href="{% url 'add_review' app.id %}"><i class="bi bi-chat-heart"></i> Оставить отзыв</a>
-            {% elif app.review %}
-                <p class="review-text">“{{ app.review.text }}”</p>
-            {% endif %}
-        </article>
+        </div>
     {% empty %}
-        <div class="empty-state">
-            <h3>Заявок пока нет</h3>
-            <p>Оформите первую заявку, и она появится здесь.</p>
+        <div class="col-12">
+            <div class="text-center py-5 bg-white rounded-4">
+                <i class="bi bi-inbox fs-1 text-secondary"></i>
+                <h3 class="mt-2">Заявок пока нет</h3>
+                <p class="text-secondary">Оформите первую заявку, и она появится здесь.</p>
+                <a href="{% url 'apply' %}" class="btn btn-primary">Создать заявку</a>
+            </div>
         </div>
     {% endfor %}
-</section>
+</div>
+
 {% endblock %}
