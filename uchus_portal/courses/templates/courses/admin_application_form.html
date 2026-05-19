@@ -1,0 +1,17 @@
+{% extends 'courses/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="auth-layout compact">
+    <div class="auth-aside">
+        <span class="eyebrow">Администрирование</span>
+        <h1>{{ title }}</h1>
+        <p>Заполните данные заявки и сохраните изменения в базе данных.</p>
+    </div>
+    <form class="form-card" method="post" novalidate>
+        {% csrf_token %}
+        {% include 'courses/_form.html' %}
+        <button class="btn btn-dark w-100" type="submit">{{ button_text }}</button>
+        <a class="switch-link" href="{% url 'admin_panel' %}">Вернуться к списку</a>
+    </form>
+</section>
+{% endblock %}

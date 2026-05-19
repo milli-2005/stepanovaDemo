@@ -1,0 +1,17 @@
+{% extends 'courses/base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-aside">
+        <span class="eyebrow">Новый профиль</span>
+        <h1>Регистрация</h1>
+        <p>Создайте учетную запись, чтобы подавать заявки на курсы и отслеживать их статус.</p>
+    </div>
+    <form class="form-card" method="post" novalidate>
+        {% csrf_token %}
+        {% include 'courses/_form.html' %}
+        <button class="btn btn-dark w-100" type="submit">Зарегистрироваться</button>
+        <a class="switch-link" href="{% url 'login' %}">Уже зарегистрированы? Войти</a>
+    </form>
+</section>
+{% endblock %}

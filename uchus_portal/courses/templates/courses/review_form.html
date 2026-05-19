@@ -1,0 +1,16 @@
+{% extends 'courses/base.html' %}
+{% block title %}Отзыв{% endblock %}
+{% block content %}
+<section class="auth-layout compact">
+    <div class="auth-aside">
+        <span class="eyebrow">Обучение завершено</span>
+        <h1>Отзыв о курсе</h1>
+        <p>{{ application.get_course_display }}</p>
+    </div>
+    <form class="form-card" method="post">
+        {% csrf_token %}
+        {% include 'courses/_form.html' %}
+        <button class="btn btn-dark w-100" type="submit">Сохранить отзыв</button>
+    </form>
+</section>
+{% endblock %}

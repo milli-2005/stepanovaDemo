@@ -1,0 +1,17 @@
+{% extends 'courses/base.html' %}
+{% block title %}Авторизация{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-aside">
+        <span class="eyebrow">Вход в систему</span>
+        <h1>Авторизация</h1>
+        <p>Введите логин и пароль, чтобы перейти в личный кабинет.</p>
+    </div>
+    <form class="form-card" method="post" novalidate>
+        {% csrf_token %}
+        {% include 'courses/_form.html' %}
+        <button class="btn btn-dark w-100" type="submit">Войти</button>
+        <a class="switch-link" href="{% url 'register' %}">Еще не зарегистрированы? Регистрация</a>
+    </form>
+</section>
+{% endblock %}

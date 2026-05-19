@@ -1,0 +1,44 @@
+{% extends 'courses/base.html' %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<section class="cabinet-head">
+    <div>
+        <span class="eyebrow">Личный кабинет</span>
+        <h1>Здравствуйте, {{ user.profile.full_name|default:user.username }}</h1>
+    </div>
+</section>
+
+<section class="slider" data-slider>
+    <button class="slider-btn prev" type="button" data-prev aria-label="Назад">‹</button>
+    <div class="slides">
+        <img src="/media/slider/slide-1.svg" alt="Онлайн обучение">
+        <img src="/media/slider/slide-2.svg" alt="Повышение квалификации">
+        <img src="/media/slider/slide-3.svg" alt="Переподготовка">
+        <img src="/media/slider/slide-4.svg" alt="Охрана труда">
+    </div>
+    <button class="slider-btn next" type="button" data-next aria-label="Вперед">›</button>
+</section>
+
+<section class="applications">
+    <h2>История заявок</h2>
+    {% for app in applications %}
+        <article class="application-card">
+            <div>
+                <span class="status {{ app.status }}">{{ app.get_status_display }}</span>
+                <h3>{{ app.get_course_display }}</h3>
+                <p>Дата начала: {{ app.start_date|date:'d.m.Y' }} · Оплата: {{ app.get_payment_method_display }}</p>
+            </div>
+            {% if app.status == 'finished' and not app.review %}
+                <a class="btn btn-outline-dark" href="{% url 'add_review' app.id %}"><i class="bi bi-chat-heart"></i> Оставить отзыв</a>
+            {% elif app.review %}
+                <p class="review-text">“{{ app.review.text }}”</p>
+            {% endif %}
+        </article>
+    {% empty %}
+        <div class="empty-state">
+            <h3>Заявок пока нет</h3>
+            <p>Оформите первую заявку, и она появится здесь.</p>
+        </div>
+    {% endfor %}
+</section>
+{% endblock %}

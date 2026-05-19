@@ -1,0 +1,16 @@
+{% extends 'courses/base.html' %}
+{% block title %}Оформление заявки{% endblock %}
+{% block content %}
+<section class="auth-layout compact">
+    <div class="auth-aside">
+        <span class="eyebrow">Запись на курс</span>
+        <h1>Оформление заявки</h1>
+        <p>Выберите направление, укажите дату в формате ДД.ММ.ГГГГ и удобный способ оплаты.</p>
+    </div>
+    <form class="form-card" method="post" novalidate>
+        {% csrf_token %}
+        {% include 'courses/_form.html' %}
+        <button class="btn btn-dark w-100" type="submit">Отправить</button>
+    </form>
+</section>
+{% endblock %}

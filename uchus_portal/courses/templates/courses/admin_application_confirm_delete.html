@@ -1,0 +1,18 @@
+{% extends 'courses/base.html' %}
+{% block title %}Удалить заявку{% endblock %}
+{% block content %}
+<section class="auth-layout compact">
+    <div class="auth-aside">
+        <span class="eyebrow">Удаление</span>
+        <h1>Удалить заявку #{{ application.id }}</h1>
+        <p>{{ application.get_course_display }} · {{ application.user.username }} · {{ application.start_date|date:'d.m.Y' }}</p>
+    </div>
+    <form class="form-card danger-card" method="post">
+        {% csrf_token %}
+        <h2>Подтвердите удаление</h2>
+        <p>Заявка будет удалена из базы данных. Это действие нельзя отменить.</p>
+        <button class="btn btn-danger w-100" type="submit">Удалить заявку</button>
+        <a class="switch-link" href="{% url 'admin_panel' %}">Отмена</a>
+    </form>
+</section>
+{% endblock %}

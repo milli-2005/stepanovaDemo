@@ -1,0 +1,73 @@
+{% extends 'courses/base.html' %}
+{% block title %}Панель администратора{% endblock %}
+{% block content %}
+<section class="cabinet-head">
+    <div>
+        <span class="eyebrow">Администрирование</span>
+        <h1>Заявки пользователей</h1>
+    </div>
+    <div class="head-actions">
+        <a class="btn btn-dark" href="{% url 'admin_application_create' %}"><i class="bi bi-plus-circle"></i> Создать заявку</a>
+    </div>
+</section>
+
+<form class="admin-filters" method="get">
+    <input name="q" value="{{ request.GET.q }}" placeholder="Поиск по логину, ФИО или курсу">
+    <select name="status">
+        <option value="">Все статусы</option>
+        {% for value, label in status_choices %}
+            <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    <select name="sort">
+        <option value="-created_at">Сначала новые</option>
+        <option value="created_at" {% if request.GET.sort == 'created_at' %}selected{% endif %}>Сначала старые</option>
+        <option value="status" {% if request.GET.sort == 'status' %}selected{% endif %}>По статусу</option>
+        <option value="course" {% if request.GET.sort == 'course' %}selected{% endif %}>По курсу</option>
+    </select>
+    <button class="btn btn-dark" type="submit">Применить</button>
+    <a class="btn btn-outline-dark reset-filter" href="{% url 'admin_panel' %}">Сбросить</a>
+</form>
+
+<section class="admin-list">
+    {% for app in page %}
+        <article class="application-card admin-card">
+            <div>
+                <span class="status {{ app.status }}">{{ app.get_status_display }}</span>
+                <h3>#{{ app.id }} · {{ app.get_course_display }}</h3>
+                <p>{{ app.user.profile.full_name }} · {{ app.user.username }} · {{ app.user.email }}</p>
+                <p>Телефон: {{ app.user.profile.phone }} · Старт: {{ app.start_date|date:'d.m.Y' }} · {{ app.get_payment_method_display }}</p>
+                {% if app.review %}
+                    <div class="admin-review">
+                        <strong><i class="bi bi-chat-heart"></i> Отзыв пользователя</strong>
+                        <p>{{ app.review.text }}</p>
+                    </div>
+                {% endif %}
+            </div>
+            <form method="post" class="status-form">
+                {% csrf_token %}
+                <input type="hidden" name="application_id" value="{{ app.id }}">
+                <select name="status" data-autosubmit>
+                    {% for value, label in status_choices %}
+                        <option value="{{ value }}" {% if app.status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <div class="crud-actions">
+                    <a href="{% url 'admin_application_edit' app.id %}"><i class="bi bi-pencil-square"></i> Изменить</a>
+                    <a class="danger-link" href="{% url 'admin_application_delete' app.id %}"><i class="bi bi-trash3"></i> Удалить</a>
+                </div>
+            </form>
+        </article>
+    {% empty %}
+        <div class="empty-state"><h3>Заявок не найдено</h3></div>
+    {% endfor %}
+</section>
+
+{% if page.paginator.num_pages > 1 %}
+    <div class="pagination-line">
+        {% if page.has_previous %}<a href="{{ page_prefix }}page={{ page.previous_page_number }}">Назад</a>{% endif %}
+        <span>{{ page.number }} / {{ page.paginator.num_pages }}</span>
+        {% if page.has_next %}<a href="{{ page_prefix }}page={{ page.next_page_number }}">Вперед</a>{% endif %}
+    </div>
+{% endif %}
+{% endblock %}
